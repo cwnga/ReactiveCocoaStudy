@@ -76,6 +76,7 @@ ReactiveCocoaStudy
 
 ##ch2 
 ### case 1: deliverOn:[RACScheduler mainThreadScheduler]] for updateing UI
+
    [[[[[self.textField.rac_textSignal
          filter:^BOOL(NSString * input) {
              return input.length >= 2;
