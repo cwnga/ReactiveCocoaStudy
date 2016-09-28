@@ -24,7 +24,11 @@ static const NSString *ReuseIdentifier = @"CollectionViewCell";
                   @{
                       @"title" : @"CH1",
                       @"className": @"Ch1ViewController"
-                      }
+                      },
+                  @{
+                      @"title" : @"CH2",
+                      @"className": @"Ch2ViewController"
+                      },
                   ];
     [self.collectionView registerNib:[UINib nibWithNibName:ReuseIdentifier bundle:nil] forCellWithReuseIdentifier:ReuseIdentifier];
 
