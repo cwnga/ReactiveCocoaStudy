@@ -8,6 +8,8 @@
 
 #import "Ch2ViewController.h"
 #import <ReactiveCocoa.h>
+#import <SDWebImage/UIImageView+WebCache.h>
+
 #import "ListingCollectionViewCell.h"
 
 @interface Ch2ViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
@@ -26,25 +28,46 @@
     self.collectionView.dataSource = self;
 
 
+    //NOTE: NON bind value
+    //    [[[[[self.textField.rac_textSignal
+    //         filter:^BOOL(NSString * input) {
+    //             return input.length >= 2;
+    //         }] throttle:0.6f
+    //        ] flattenMap:^RACStream *(NSString *value) {
+    //        return [self signalForQuery:value];
+    //    }] deliverOn:[RACScheduler mainThreadScheduler]]  //update UI need on main thread
+    //     subscribeNext:^(id input) {
+    //         self.data = [input valueForKeyPath:@"query.results.product"];
+    //         NSLog(@"input:%@", input); //will change to api response
+    //         [self.collectionView reloadData];
+    //     }];
 
-    [[[[[self.textField.rac_textSignal
-         filter:^BOOL(NSString * input) {
-             return input.length >= 2;
-         }] throttle:0.6f
-        ] flattenMap:^RACStream *(NSString *value) {
+    ///NOTE: Bind data to update
+    [[[[self.textField.rac_textSignal
+        filter:^BOOL(NSString * input) {
+            return input.length >= 2;
+        }] throttle:0.6f
+       ] flattenMap:^RACStream *(NSString *value) {
         return [self signalForQuery:value];
-    }] deliverOn:[RACScheduler mainThreadScheduler]]  //update UI need on main thread
+    }]
      subscribeNext:^(id input) {
-        self.data = [input valueForKeyPath:@"query.results.product"];
-        NSLog(@"input:%@", input); //will change to api response
+         self.data = [input valueForKeyPath:@"query.results.product"];
+         NSLog(@"input:%@", input); //will change to api response
+         //[self.collectionView reloadData]; //DELETE for data as signal
+     }];
+
+    //data as signal
+    RACSignal *dataSignal = [self rac_valuesForKeyPath:@"data" observer:self];
+    [[dataSignal deliverOnMainThread ]subscribeNext:^(id x) {
+        //update ui in main thread
         [self.collectionView reloadData];
     }];
 
+
     [[self rac_signalForSelector:@selector(collectionView:didSelectItemAtIndexPath:) fromProtocol:@protocol(UICollectionViewDelegate)] subscribeNext:^(RACTuple *racTuple) {
         NSLog(@"racTuple:%@", racTuple.second);
-
     }];
-    // Do any additional setup after loading the view from its nib.
+    // Do any additional setup after loading the view from its nib.n
 }
 - (void)setupCollectionView
 {
@@ -62,9 +85,6 @@
         NSURL *url = [NSURL URLWithString:urlString];
         NSURLSession *session = [NSURLSession sharedSession];
         NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            NSLog(@"data:%@", data);
-            NSLog(@"response:%@", response);
-            NSLog(@"error:%@", error);
 
             if (error) {
                 [subscriber sendError:error];
@@ -102,7 +122,16 @@
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ListingCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:ListingCollectionViewCellIdentifer forIndexPath:indexPath];
-    cell.titleLabel.text = @"hihi";
+    NSDictionary *data = self.data[indexPath.row];
+    if (data[@"image"][0][@"image"][0][@"url"]) {
+        NSString *imageUrl = data[@"image"][0][@"image"][0][@"url"];
+        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"Image_NO_Image"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (!error) {
+                cell.imageView.image = image;
+            }
+        }];
+    }
+    cell.titleLabel.text = data[@"title"];
     return cell;
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -113,9 +142,9 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"call");
-//    NSString *className = [self.data[indexPath.item] valueForKey:@"className"];
-//    UIViewController *vc = [[NSClassFromString(className) alloc] init];
-//    [self.navigationController pushViewController:vc animated:YES];
+    //    NSString *className = [self.data[indexPath.item] valueForKey:@"className"];
+    //    UIViewController *vc = [[NSClassFromString(className) alloc] init];
+    //    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath

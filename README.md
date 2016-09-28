@@ -73,3 +73,43 @@ ReactiveCocoaStudy
     }] subscribeNext:^(id input) {
         NSLog(@"input:%@", input); //will change to api response
     }];
+
+##ch2 
+### case 1: deliverOn:[RACScheduler mainThreadScheduler]] for updateing UI
+   [[[[[self.textField.rac_textSignal
+         filter:^BOOL(NSString * input) {
+             return input.length >= 2;
+         }] throttle:0.6f
+        ] flattenMap:^RACStream *(NSString *value) {
+        return [self signalForQuery:value];
+    }] deliverOn:[RACScheduler mainThreadScheduler]]  //update UI need on main thread
+     subscribeNext:^(id input) {
+         self.data = [input valueForKeyPath:@"query.results.product"];
+         NSLog(@"input:%@", input); //will change to api response
+         [self.collectionView reloadData];
+     }];
+
+
+### case 2: bind data to update
+
+    ///NOTE: Bind data to update
+    [[[[self.textField.rac_textSignal
+        filter:^BOOL(NSString * input) {
+            return input.length >= 2;
+        }] throttle:0.6f
+       ] flattenMap:^RACStream *(NSString *value) {
+        return [self signalForQuery:value];
+    }]
+     subscribeNext:^(id input) {
+         self.data = [input valueForKeyPath:@"query.results.product"];
+         NSLog(@"input:%@", input); //will change to api response
+         //[self.collectionView reloadData]; //DELETE for data as signal
+     }];
+
+    //data as signal
+    RACSignal *dataSignal = [self rac_valuesForKeyPath:@"data" observer:self];
+    [[dataSignal deliverOnMainThread ]subscribeNext:^(id x) {
+        //update ui in main thread
+        [self.collectionView reloadData];
+    }];
+
