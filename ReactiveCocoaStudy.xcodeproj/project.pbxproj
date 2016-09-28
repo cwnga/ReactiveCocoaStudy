@@ -17,6 +17,8 @@
 		F709E7F61D9B61B9006F9DA7 /* Ch2ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F709E7F41D9B61B9006F9DA7 /* Ch2ViewController.xib */; };
 		F709E7FA1D9B6307006F9DA7 /* ListingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F709E7F81D9B6307006F9DA7 /* ListingCollectionViewCell.m */; };
 		F709E7FB1D9B6307006F9DA7 /* ListingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F709E7F91D9B6307006F9DA7 /* ListingCollectionViewCell.xib */; };
+		F709E7FF1D9BBCA5006F9DA7 /* Ch2DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F709E7FD1D9BBCA5006F9DA7 /* Ch2DetailViewController.m */; };
+		F709E8001D9BBCA5006F9DA7 /* Ch2DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F709E7FE1D9BBCA5006F9DA7 /* Ch2DetailViewController.xib */; };
 		F7AE62641D9A997200F0E8D0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F7AE62631D9A997200F0E8D0 /* main.m */; };
 		F7AE62671D9A997200F0E8D0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F7AE62661D9A997200F0E8D0 /* AppDelegate.m */; };
 		F7AE626A1D9A997200F0E8D0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7AE62691D9A997200F0E8D0 /* ViewController.m */; };
@@ -42,6 +44,9 @@
 		F709E7F71D9B6307006F9DA7 /* ListingCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingCollectionViewCell.h; sourceTree = "<group>"; };
 		F709E7F81D9B6307006F9DA7 /* ListingCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingCollectionViewCell.m; sourceTree = "<group>"; };
 		F709E7F91D9B6307006F9DA7 /* ListingCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListingCollectionViewCell.xib; sourceTree = "<group>"; };
+		F709E7FC1D9BBCA5006F9DA7 /* Ch2DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ch2DetailViewController.h; sourceTree = "<group>"; };
+		F709E7FD1D9BBCA5006F9DA7 /* Ch2DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ch2DetailViewController.m; sourceTree = "<group>"; };
+		F709E7FE1D9BBCA5006F9DA7 /* Ch2DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Ch2DetailViewController.xib; sourceTree = "<group>"; };
 		F7AE625F1D9A997200F0E8D0 /* ReactiveCocoaStudy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReactiveCocoaStudy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7AE62631D9A997200F0E8D0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F7AE62651D9A997200F0E8D0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -114,6 +119,9 @@
 				F709E7F21D9B61B9006F9DA7 /* Ch2ViewController.h */,
 				F709E7F31D9B61B9006F9DA7 /* Ch2ViewController.m */,
 				F709E7F41D9B61B9006F9DA7 /* Ch2ViewController.xib */,
+				F709E7FC1D9BBCA5006F9DA7 /* Ch2DetailViewController.h */,
+				F709E7FD1D9BBCA5006F9DA7 /* Ch2DetailViewController.m */,
+				F709E7FE1D9BBCA5006F9DA7 /* Ch2DetailViewController.xib */,
 			);
 			name = Ch2;
 			path = Src/Ch2;
@@ -231,6 +239,7 @@
 				F709E7F01D9AA51C006F9DA7 /* CollectionViewCell.xib in Resources */,
 				F709E7F61D9B61B9006F9DA7 /* Ch2ViewController.xib in Resources */,
 				F7AE626F1D9A997200F0E8D0 /* Assets.xcassets in Resources */,
+				F709E8001D9BBCA5006F9DA7 /* Ch2DetailViewController.xib in Resources */,
 				F709E7E41D9AA27F006F9DA7 /* ViewController.xib in Resources */,
 				F7AE626D1D9A997200F0E8D0 /* Main.storyboard in Resources */,
 				F709E7FB1D9B6307006F9DA7 /* ListingCollectionViewCell.xib in Resources */,
@@ -295,6 +304,7 @@
 				F7AE626A1D9A997200F0E8D0 /* ViewController.m in Sources */,
 				F709E7EF1D9AA51C006F9DA7 /* CollectionViewCell.m in Sources */,
 				F709E7E91D9AA341006F9DA7 /* Ch1ViewController.m in Sources */,
+				F709E7FF1D9BBCA5006F9DA7 /* Ch2DetailViewController.m in Sources */,
 				F709E7FA1D9B6307006F9DA7 /* ListingCollectionViewCell.m in Sources */,
 				F7AE62671D9A997200F0E8D0 /* AppDelegate.m in Sources */,
 				F709E7F51D9B61B9006F9DA7 /* Ch2ViewController.m in Sources */,

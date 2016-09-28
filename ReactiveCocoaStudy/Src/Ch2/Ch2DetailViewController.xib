@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="Ch2DetailViewController">
+            <connections>
+                <outlet property="dissmissButton" destination="WJ9-4z-J9K" id="C9v-60-zD4"/>
+                <outlet property="imageView" destination="hCb-Od-Tym" id="P4n-tT-di8"/>
+                <outlet property="priceLabale" destination="qei-yL-6D4" id="Of0-nw-QRW"/>
+                <outlet property="titleLabel" destination="2hJ-r2-a1K" id="UrM-f8-63d"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hCb-Od-Tym">
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="hCb-Od-Tym" secondAttribute="height" multiplier="1:1" id="5Fc-c3-KnA"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hJ-r2-a1K">
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qei-yL-6D4">
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="0.065431795060000006" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WJ9-4z-J9K">
+                    <state key="normal" title="Dismiss"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="WJ9-4z-J9K" secondAttribute="bottom" constant="10" id="2Xu-jM-qGM"/>
+                <constraint firstItem="2hJ-r2-a1K" firstAttribute="trailing" secondItem="hCb-Od-Tym" secondAttribute="trailing" constant="-10" id="6Vw-KI-Jbp"/>
+                <constraint firstItem="qei-yL-6D4" firstAttribute="top" secondItem="2hJ-r2-a1K" secondAttribute="bottom" constant="10" id="6bA-Ar-9dC"/>
+                <constraint firstItem="qei-yL-6D4" firstAttribute="trailing" secondItem="2hJ-r2-a1K" secondAttribute="trailing" id="KEg-yg-04D"/>
+                <constraint firstItem="2hJ-r2-a1K" firstAttribute="top" secondItem="hCb-Od-Tym" secondAttribute="bottom" constant="10" id="cGm-Ya-7yy"/>
+                <constraint firstItem="WJ9-4z-J9K" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="cYC-f8-xHQ"/>
+                <constraint firstItem="qei-yL-6D4" firstAttribute="leading" secondItem="2hJ-r2-a1K" secondAttribute="leading" id="d32-Mb-6ib"/>
+                <constraint firstItem="hCb-Od-Tym" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="goO-vq-50p"/>
+                <constraint firstAttribute="trailing" secondItem="hCb-Od-Tym" secondAttribute="trailing" id="iZF-Ei-TsK"/>
+                <constraint firstItem="2hJ-r2-a1K" firstAttribute="leading" secondItem="hCb-Od-Tym" secondAttribute="leading" constant="10" id="woJ-zh-q28"/>
+                <constraint firstItem="hCb-Od-Tym" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="x1A-Uc-HGK"/>
+            </constraints>
+            <point key="canvasLocation" x="125.5" y="140.5"/>
+        </view>
+    </objects>
+</document>

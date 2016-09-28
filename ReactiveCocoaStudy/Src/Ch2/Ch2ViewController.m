@@ -9,7 +9,7 @@
 #import "Ch2ViewController.h"
 #import <ReactiveCocoa.h>
 #import <SDWebImage/UIImageView+WebCache.h>
-
+#import "Ch2DetailViewController.h"
 #import "ListingCollectionViewCell.h"
 
 @interface Ch2ViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
@@ -64,9 +64,29 @@
     }];
 
 
-    [[self rac_signalForSelector:@selector(collectionView:didSelectItemAtIndexPath:) fromProtocol:@protocol(UICollectionViewDelegate)] subscribeNext:^(RACTuple *racTuple) {
-        NSLog(@"racTuple:%@", racTuple.second);
-    }];
+    RACSignal *didSelectedSignal = [[self rac_signalForSelector:@selector(collectionView:didSelectItemAtIndexPath:) fromProtocol:@protocol(UICollectionViewDelegate)]
+                                    map:^id(RACTuple *racTuple) {
+                                        NSLog(@"racTuple:%@", racTuple.second);
+                                        return racTuple.second;
+                                    }];
+
+    [didSelectedSignal subscribeNext:^(NSIndexPath *indexPath) {
+        ListingCollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+        Ch2DetailViewController *detailViewController = [[Ch2DetailViewController alloc] init];
+        detailViewController.image = cell.imageView.image;
+        NSDictionary *data = self.data[indexPath.row];
+        detailViewController.title = data[@"title"];
+        detailViewController.price = [NSString stringWithFormat:@"$%@", data[@"currentPrice"]];
+
+        [self rac_liftSelector:@selector(presentViewController:animated:completion:) withSignalsFromArray:@[
+
+                                                                                                   [RACSignal return:detailViewController],
+
+                                                                                                   [RACSignal return:@YES],[RACSignal return:nil],
+
+                                                                                                   ]
+         ];
+    }] ;
     // Do any additional setup after loading the view from its nib.n
 }
 - (void)setupCollectionView
@@ -77,7 +97,7 @@
 #pragma mark - reactive cocoa
 - (RACSignal *)signalForQuery:(NSString *)query
 {
-    RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+    RACSignal *signal = [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         NSString *q = [[NSString stringWithFormat:@"SELECT * FROM ecsearch.std.search (0, 10) WHERE keyword=\"%@\" and property=\"auction\" and sortBy=\"price\" and sortOrder=\"asc\"", query] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
 
         NSString *urlString = [NSString stringWithFormat:@"https://auction.yql.yahoo.com/v1/public/yql?q=%@&format=json", q];
@@ -106,7 +126,7 @@
         return [RACDisposable disposableWithBlock:^{
             [dataTask cancel];
         }];
-    }];
+    }] retry:5];
     return signal;
 
 }

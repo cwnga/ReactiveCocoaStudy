@@ -30,7 +30,7 @@ ReactiveCocoaStudy
 
     - (RACSignal *)signalForQuery:(NSString *)query
     {
-        RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        RACSignal *signal = [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
             NSString *q = [[NSString stringWithFormat:@"SELECT * FROM ecsearch.std.search (0, 10) WHERE keyword=\"%@\" and property=\"auction\" and sortBy=\"price\" and sortOrder=\"asc\"", query] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     
             NSString *urlString = [NSString stringWithFormat:@"https://auction.yql.yahoo.com/v1/public/yql?q=%@&format=json", q];
@@ -38,9 +38,7 @@ ReactiveCocoaStudy
             NSURL *url = [NSURL URLWithString:urlString];
             NSURLSession *session = [NSURLSession sharedSession];
             NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                NSLog(@"data:%@", data);
-                NSLog(@"response:%@", response);
-                NSLog(@"error:%@", error);
+    
                 if (error) {
                     [subscriber sendError:error];
                 } else {
@@ -53,15 +51,17 @@ ReactiveCocoaStudy
                     }
                 }
                 [subscriber sendCompleted];
+    
+    
             }];
             [dataTask resume];
-    
             return [RACDisposable disposableWithBlock:^{
                 [dataTask cancel];
             }];
-        }];
+        }] retry:5];
         return signal;
     }
+
 
 ### flattenMap to chagen signal
     [[[[self.textField.rac_textSignal
@@ -75,6 +75,8 @@ ReactiveCocoaStudy
     }];
 
 ##ch2 
+usage of deliverOn, bind data signal to update, rac_liftSelector...
+
 ### case 1: deliverOn:[RACScheduler mainThreadScheduler]] for updateing UI
 
     [[[[[self.textField.rac_textSignal
@@ -113,4 +115,28 @@ ReactiveCocoaStudy
         //update ui in main thread
         [self.collectionView reloadData];
     }];
+
+### rac_liftSelector
+
+    RACSignal *didSelectedSignal = [[self rac_signalForSelector:@selector(collectionView:didSelectItemAtIndexPath:) fromProtocol:@protocol(UICollectionViewDelegate)]
+                                    map:^id(RACTuple *racTuple) {
+                                        NSLog(@"racTuple:%@", racTuple.second);
+                                        return racTuple.second;
+                                    }];
+
+    [didSelectedSignal subscribeNext:^(NSIndexPath *indexPath) {
+        ListingCollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+        Ch2DetailViewController *detailViewController = [[Ch2DetailViewController alloc] init];
+        detailViewController.image = cell.imageView.image;
+        NSDictionary *data = self.data[indexPath.row];
+        detailViewController.title = data[@"title"];
+        detailViewController.price = [NSString stringWithFormat:@"$%@", data[@"currentPrice"]];
+
+        [self rac_liftSelector:@selector(presentViewController:animated:completion:) withSignalsFromArray:@[
+                                                                                                   [RACSignal return:detailViewController],
+                                                                                                   [RACSignal return:@YES],[RACSignal return:nil],
+                                                                                                   ]
+         ];
+    }] ;
+
 
